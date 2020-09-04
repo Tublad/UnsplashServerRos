@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "31A3D169-9547-41DD-90DE-D355D8DC5FA4"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EABA1007-4D8B-482A-8FDF-6D1F43548090"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "22A8900E-EA00-45C6-A3E9-FF950E36AD14"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "22A8900E-EA00-45C6-A3E9-FF950E36AD14 - f9ac05eae1e28505"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static UnsplashServerRos.UnsplashServer.searchImageInUnsplashServer(Swift.String) -&gt; ()"
+                  moduleName = "UnsplashServerRos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenijsvarckopf/Desktop/UnsplashServerRos/UnsplashServerRos/UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "669">
+               </Location>
+               <Location
+                  uuid = "22A8900E-EA00-45C6-A3E9-FF950E36AD14 - 2c36652fd3081869"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static UnsplashServerRos.UnsplashServer.searchImageInUnsplashServer(Swift.String) -&gt; ()"
+                  moduleName = "UnsplashServerRos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenijsvarckopf/Desktop/UnsplashServerRos/UnsplashServerRos/UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "161">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB0F5E14-C570-4C8F-8FE8-3682224BC1D3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E37E2D35-4310-4665-B730-7EC02FDE00C0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0BC9BC47-1F8A-4BB0-BCB0-3843633BC430"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F96FF33-FDB0-4545-8139-FEB4A574E688"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE36A830-E359-4AC4-9414-488B700FB7C8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/UnsplashServer/UnsplashServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "searchImageInUnsplashServer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "22BE787C-C454-4EA8-BFD3-6DE09C0038FD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/Screens/MainScreen/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "getUnsplashServiceContent()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C3D7AFD6-921B-4AB5-8CE9-098379A28AEA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UnsplashServerRos/Screens/MainScreen/MainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "MainView"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "C3D7AFD6-921B-4AB5-8CE9-098379A28AEA - bc6a7582a0d5dc79"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UnsplashServerRos.MainView.pictures.getter : Swift.Optional&lt;Swift.Array&lt;UnsplashServerRos.PictureElement&gt;&gt;"
+                  moduleName = "UnsplashServerRos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenijsvarckopf/Desktop/UnsplashServerRos/UnsplashServerRos/UnsplashServerRos/Screens/MainScreen/MainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "122">
+               </Location>
+               <Location
+                  uuid = "C3D7AFD6-921B-4AB5-8CE9-098379A28AEA - bc6a7582a0d5dc79"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UnsplashServerRos.MainView.pictures.setter : Swift.Optional&lt;Swift.Array&lt;UnsplashServerRos.PictureElement&gt;&gt;"
+                  moduleName = "UnsplashServerRos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenijsvarckopf/Desktop/UnsplashServerRos/UnsplashServerRos/UnsplashServerRos/Screens/MainScreen/MainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "C3D7AFD6-921B-4AB5-8CE9-098379A28AEA - 742983daa44d6000"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UnsplashServerRos.MainView.pictures.modify : Swift.Optional&lt;Swift.Array&lt;UnsplashServerRos.PictureElement&gt;&gt;"
+                  moduleName = "UnsplashServerRos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenijsvarckopf/Desktop/UnsplashServerRos/UnsplashServerRos/UnsplashServerRos/Screens/MainScreen/MainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "18">
+               </Location>
+               <Location
+                  uuid = "C3D7AFD6-921B-4AB5-8CE9-098379A28AEA - 222bf4ce298b1e3a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UnsplashServerRos.MainView.pictures.modify : Swift.Optional&lt;Swift.Array&lt;UnsplashServerRos.PictureElement&gt;&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "UnsplashServerRos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenijsvarckopf/Desktop/UnsplashServerRos/UnsplashServerRos/UnsplashServerRos/Screens/MainScreen/MainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "4">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
