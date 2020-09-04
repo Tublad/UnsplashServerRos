@@ -30,14 +30,13 @@ final class MainViewController: UIViewController {
         
         if let view = mainView, let presenter = presenter {
             view.setPresenter(presenter)
+            presenter.getImage()
         }
-        //            UnsplashServer.searchImageInUnsplashServer("canada")
-        setNavigation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getUnsplashServiceContent()
+        setNavigation()
     }
     
     //MARK: - Private metods
@@ -46,22 +45,42 @@ final class MainViewController: UIViewController {
     private func setNavigation() {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.title = "Unsplash"
+        self.navigationController?.navigationBar.tintColor = UIColor.marineColor
+        
+        let rightButton = UIBarButtonItem(title: "Local Memory", style: .plain, target: self, action: #selector(showLocalViewController))
+        navigationItem.rightBarButtonItem = rightButton
     }
-    
 }
 
 
 extension MainViewController: MainViewControllerImpl {
     
+    func searchImageInUnsplashServer(text: String) {
+        if text.count > 0 {
+            UnsplashServer.searchImageInUnsplashServer(text) { [weak self] (searchPicture, error) in
+                if error == nil {
+                    print("Собственно вот он наш nil \(error?.localizedDescription)")
+                }
+                if let view = self?.mainView {
+                    view.getContent(searchPicture.results)
+                }
+            }
+        }
+    }
+    
     func getUnsplashServiceContent() {
         UnsplashServer.getImageUnsplashServerForShow { [weak self] (picture, error) in
             if error == nil {
-                print(error?.localizedDescription)
+                print("А это нил уже из поисковика \(error?.localizedDescription)")
             }
             if let view = self?.mainView {
                 view.getContent(picture)
             }
         }
+    }
+    
+    @objc func showLocalViewController(_ sender: UIButton) {
+        self.presenter?.showLocalViewController()
     }
 
 }

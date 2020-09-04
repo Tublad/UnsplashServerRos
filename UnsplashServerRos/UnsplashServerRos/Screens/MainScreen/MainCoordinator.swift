@@ -3,7 +3,7 @@ import UIKit
 
 
 protocol MainCoordination {
-    
+    func showLocalViewController()
 }
 
 
@@ -30,10 +30,15 @@ final class MainCoordinator: BaseCoordirator {
 }
 
 
-//MARK: - SignInCoordination
+//MARK: - MainCoordination
 extension MainCoordinator: MainCoordination {
     
-
-
+    func showLocalViewController() {
+        let localCoordinator = LocalCoordinator(navController: navController)
+        self.parentCoordinator?.setDependence(withChildCoordinator: localCoordinator)
+        localCoordinator.start()
+        self.parentCoordinator?.didFinish(coordinator: self)
+    }
+    
 }
 

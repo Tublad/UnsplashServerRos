@@ -1,20 +1,25 @@
+//
+//  LocalView.swift
+//  UnsplashServerRos
+//
+//  Created by Евгений Шварцкопф on 04.09.2020.
+//  Copyright © 2020 Евгений Шварцкопф. All rights reserved.
+//
 
 import UIKit
 
-
-protocol MainViewImpl {
+protocol LocalViewImpl {
     //функции типа, покажи данные
-    func setPresenter(_ presenter: MainViewAction)
-    func getContent(_ content: Picture)
+    func setPresenter(_ presenter: LocalViewAction)
 }
 
 
-final class MainView: UIView {
+final class LocalView: UIView {
     
     var pictures: Picture?
     
     //MARK: - Private properties
-    private var presenter: MainViewAction?
+    private var presenter: LocalViewAction?
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -44,16 +49,6 @@ final class MainView: UIView {
         return collectionView
     }()
     
-    lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search"
-        searchBar.searchBarStyle = .prominent
-        searchBar.delegate = self
-        
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        return searchBar
-    }()
-    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,53 +63,33 @@ final class MainView: UIView {
     
     //MARK: - Private metods
     fileprivate func setupUI() {
-        setupSearchBar()
         setupCollectionView()
      // to do ...
     }
     
-    private func setupSearchBar() {
-        self.addSubview(searchBar)
-        
-        searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor).isActive = true
-        searchBar.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor).isActive = true
-    }
-    
     private func setupCollectionView() {
-        collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 2).isActive = true
+        collectionView.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 }
 
-extension MainView: MainViewImpl {
+extension LocalView: LocalViewImpl {
     
-    func getContent(_ content: Picture) {
-        self.pictures = content
-        DispatchQueue.main.async {
-          self.collectionView.reloadData()
-        }  
-    }
-    
-    func setPresenter(_ presenter: MainViewAction) {
+    func setPresenter(_ presenter: LocalViewAction) {
         self.presenter = presenter
     }
     
-    @objc func savePictureLocalMemory(_ sender: UIButton) {
-        print("Пытаюсь сохранить изображение")
-    }
 }
 
 //MARK: - CollectionDelegate
-extension MainView: UICollectionViewDelegate {
+extension LocalView: UICollectionViewDelegate {
     // to do выбор ячейки для выделения, в общий массив и сохранение фотографий на локальный диск списком
 }
 
 //MARK: - CollectionDataSource
-extension MainView: UICollectionViewDataSource {
+extension LocalView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         pictures?.count ?? 0
@@ -136,37 +111,8 @@ extension MainView: UICollectionViewDataSource {
             }
         }
         
-        cell.saveImageButton.addTarget(self, action: #selector(savePictureLocalMemory), for: .touchDown)
         return cell
     }
 }
-
-extension MainView: UISearchBarDelegate {
-    
-     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.showsCancelButton = true
-        return true
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-        self.endEditing(true)
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if !searchText.isEmpty {
-            self.presenter?.searchText(searchText)
-        } else {
-            self.presenter?.getImage()
-        }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-        self.endEditing(true)
-    }
-}
-
-
 
 
