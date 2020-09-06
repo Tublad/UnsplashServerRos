@@ -20,12 +20,16 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         imageView.image = nil
-        self.reloadInputViews()
+        saveImageButton.imageView?.image = nil
     }
     
     func configurationCell(_ size: CGFloat) {
+        self.layer.cornerRadius = 1
+        self.clipsToBounds = true
+        
         self.layer.borderColor = UIColor.black.cgColor
         self.layer.borderWidth = 2
+        self.layer.masksToBounds = false 
         self.frame.size.width = size
         self.frame.size.height = size
     }
