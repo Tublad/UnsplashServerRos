@@ -68,11 +68,7 @@ class DataProvider {
     
     // MARK: - Check image
     func chechImage(id: String) -> Bool {
-        guard let image = saveImageCache.object(forKey: id as NSString) else { return false }
-        if listSaveImage.contains(image) {
-            return true
-        } else {
-            return false 
-        }
+        guard saveImageCache.object(forKey: id as NSString) != nil else { return false }
+        return true
     }
 }

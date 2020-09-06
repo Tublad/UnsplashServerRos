@@ -18,7 +18,7 @@ final class UnsplashServer {
     //complitionHandler: @escaping ([Picture], Error) -> Void
    static func getImageUnsplashServerForShow(complitionHandler: @escaping (Picture, Error?) -> Void) {
         let baseUrl = "https://api.unsplash.com/"
-        let photosUrl = "photos?per_page=50&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
+        let photosUrl = "photos?per_page=28&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
     
         let urls = baseUrl + photosUrl
         guard let fullUrl = URL(string: urls) else { return }
@@ -39,7 +39,7 @@ final class UnsplashServer {
     
     static func searchImageInUnsplashServer(_ searchName: String, complitionHandler: @escaping (SearchPicture, Error?) -> Void) {
         let searchUrl = "https://api.unsplash.com/search/photos?query="
-        let pageCount = "&per_page=50&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
+        let pageCount = "&per_page=28&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
         
         let urls = searchUrl + searchName + pageCount
         guard let fullUrl = URL(string: urls) else { return }

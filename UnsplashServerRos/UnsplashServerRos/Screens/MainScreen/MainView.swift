@@ -184,6 +184,7 @@ extension MainView: MainViewImpl {
     
     func getContent(_ content: Picture) {
         self.pictures = content
+        
         DispatchQueue.main.async {
           self.collectionView.reloadData()
         }  
@@ -207,11 +208,11 @@ extension MainView: MainViewImpl {
             
             sender.setImage(UIImage(systemName:"checkmark"), for: .normal)
             sender.tintColor = .marineColor
+            sender.isEnabled = false
             sender.backgroundColor = .clear
             title.alpha = 1
             
             UIView.animate(withDuration: 2, animations: {
-                sender.alpha = 0
                 self.title.alpha = 0
             })
         }
@@ -266,7 +267,8 @@ extension MainView: UICollectionViewDataSource {
         
         // MARK: - Check image save in memory
         if answer {
-            cell.saveImageButton.isHidden = true
+            cell.saveImageButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+            cell.saveImageButton.isEnabled = false
         } else {
             cell.saveImageButton.tag = indexPath.row
             cell.saveImageButton.addTarget(self, action: #selector(savePictureLocalMemory), for: .touchUpInside)
@@ -316,7 +318,7 @@ extension MainView: UISearchBarDelegate {
             return
         }
         self.presenter?.searchText(searchText)
-        
+
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
