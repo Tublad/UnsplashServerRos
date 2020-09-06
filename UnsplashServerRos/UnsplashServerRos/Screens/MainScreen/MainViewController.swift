@@ -55,11 +55,27 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: MainViewControllerImpl {
     
+    func deleteButton() {
+        navigationItem.leftBarButtonItem = nil
+    }
+    
+    func showButton() {
+        let button = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveImageList))
+        navigationItem.leftBarButtonItem = button
+    }
+    
+    @objc func saveImageList() {
+        if let view = mainView {
+            view.saveListImage()
+        }
+    }
+    
     func searchImageInUnsplashServer(text: String) {
         if text.count > 0 {
             UnsplashServer.searchImageInUnsplashServer(text) { [weak self] (searchPicture, error) in
-                if error == nil {
-                    print("Собственно вот он наш nil \(error?.localizedDescription)")
+                if error != nil,
+                   let error = error {
+                    print(error.localizedDescription)
                 }
                 if let view = self?.mainView {
                     view.getContent(searchPicture.results)
@@ -70,8 +86,9 @@ extension MainViewController: MainViewControllerImpl {
     
     func getUnsplashServiceContent() {
         UnsplashServer.getImageUnsplashServerForShow { [weak self] (picture, error) in
-            if error == nil {
-                print("А это нил уже из поисковика \(error?.localizedDescription)")
+           if error != nil,
+               let error = error {
+                print(error.localizedDescription)
             }
             if let view = self?.mainView {
                 view.getContent(picture)
@@ -81,6 +98,10 @@ extension MainViewController: MainViewControllerImpl {
     
     @objc func showLocalViewController(_ sender: UIButton) {
         self.presenter?.showLocalViewController()
+    }
+    
+    func doubleTap() {
+        presenter?.actionDoubleTap()
     }
 
 }

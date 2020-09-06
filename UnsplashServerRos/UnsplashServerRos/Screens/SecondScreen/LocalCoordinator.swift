@@ -32,7 +32,7 @@ final class LocalCoordinator: BaseCoordirator {
         let presenter = LocalPresenter(view: vc, coordinator: self)
         vc.presenter = presenter
         
-        navController.pushViewController(vc, animated: false)
+        navController.pushViewController(vc, animated: true)
     }
 }
 

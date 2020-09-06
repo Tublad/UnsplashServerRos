@@ -6,6 +6,7 @@ protocol MainViewImpl {
     //функции типа, покажи данные
     func setPresenter(_ presenter: MainViewAction)
     func getContent(_ content: Picture)
+    func saveListImage()
 }
 
 
@@ -15,12 +16,14 @@ final class MainView: UIView {
     
     //MARK: - Private properties
     private var presenter: MainViewAction?
+    private var saveCountImage: Picture = Picture()
+    private var buttonRow: Int = 0
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
     private var screenHeight: CGFloat!
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         // setting size
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize.width
@@ -36,6 +39,7 @@ final class MainView: UIView {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .black
+        collectionView.allowsMultipleSelection = true
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MainCollectionViewCell.nib, forCellWithReuseIdentifier: MainCollectionViewCell.reuseId)
@@ -44,7 +48,27 @@ final class MainView: UIView {
         return collectionView
     }()
     
-    lazy var searchBar: UISearchBar = {
+    private lazy var chooseView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.grayChoose
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var title: UILabel = {
+        let label = UILabel()
+        label.text = "Save"
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 50)
+        label.shadowColor = UIColor.black
+        label.shadowOffset = CGSize(width: 1.5, height: 1.5)
+        label.alpha = 0
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search"
         searchBar.searchBarStyle = .prominent
@@ -53,6 +77,16 @@ final class MainView: UIView {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
+    
+    private lazy var tapRecognizer: UITapGestureRecognizer = {
+         var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
+         return recognizer
+    }()
+    
+    @objc func dismissKeyboard() {
+      searchBar.resignFirstResponder()
+    }
+    
     
     //MARK: - Init
     override init(frame: CGRect) {
@@ -76,10 +110,10 @@ final class MainView: UIView {
     private func setupSearchBar() {
         self.addSubview(searchBar)
         
-        searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor).isActive = true
-        searchBar.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        searchBar.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        searchBar.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
     
     private func setupCollectionView() {
@@ -87,10 +121,66 @@ final class MainView: UIView {
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        collectionView.addSubview(title)
+        
+        title.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+        title.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
+    }
+    
+    private func saveImage(index: Int) {
+        if let picture = pictures?[index] {
+            if saveCountImage.count == 0 {
+                saveCountImage.append(picture)
+            } else {
+                var count = 0
+                saveCountImage.contains { (value) -> Bool in
+                    if value.id == picture.id {
+                        count += 1
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+                if count <= 0 {
+                    saveCountImage.append(picture)
+                }
+            }
+        }
+    }
+    
+    private func deleteImage(index: Int) {
+        if saveCountImage.count > 0 {
+            if let picture = pictures?[index] {
+                var count = 0
+                for value in saveCountImage {
+                    count += 1
+                    if value.id == picture.id {
+                        count -= 1
+                        saveCountImage.remove(at: count)
+                    }
+                }
+            }
+        }
     }
 }
 
 extension MainView: MainViewImpl {
+    
+    func saveListImage() {
+        for image in saveCountImage {
+            DataProvider.shared.saveImageInLocalMemory(key: image.id)
+        }
+        title.alpha = 1
+        
+        UIView.animate(withDuration: 2, animations: {
+            self.title.alpha = 0
+        }, completion: nil)
+        
+        presenter?.deleteButtonSave()
+        collectionView.reloadData()
+    }
     
     func getContent(_ content: Picture) {
         self.pictures = content
@@ -103,14 +193,56 @@ extension MainView: MainViewImpl {
         self.presenter = presenter
     }
     
+    @objc func doubleTapped(_ sender: UIButton) {
+        print("Click click double")
+        // to do ... show picture full and present
+    }
+    
     @objc func savePictureLocalMemory(_ sender: UIButton) {
-        print("Пытаюсь сохранить изображение")
+        buttonRow = sender.tag
+        
+        if let key = pictures?[buttonRow].id {
+            saveImage(index: buttonRow)
+            DataProvider.shared.saveImageInLocalMemory(key: key)
+            
+            sender.setImage(UIImage(systemName:"checkmark"), for: .normal)
+            sender.tintColor = .marineColor
+            sender.backgroundColor = .clear
+            title.alpha = 1
+            
+            UIView.animate(withDuration: 2, animations: {
+                sender.alpha = 0
+                self.title.alpha = 0
+            })
+        }
     }
 }
 
 //MARK: - CollectionDelegate
 extension MainView: UICollectionViewDelegate {
     // to do выбор ячейки для выделения, в общий массив и сохранение фотографий на локальный диск списком
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let selectedCell : UICollectionViewCell = collectionView.cellForItem(at: indexPath) as? MainCollectionViewCell else { return }
+        presenter?.getButtonForSaveList()
+        
+        saveImage(index: indexPath.row)
+        
+        selectedCell.layer.borderColor = UIColor.white.cgColor
+        selectedCell.isSelected = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+        guard let unselectedCell : UICollectionViewCell = collectionView.cellForItem(at: indexPath) as? MainCollectionViewCell else { return }
+        deleteImage(index: indexPath.row)
+
+        unselectedCell.layer.borderColor = UIColor.black.cgColor
+        unselectedCell.isSelected = false
+    }
+    
+    
 }
 
 //MARK: - CollectionDataSource
@@ -126,17 +258,35 @@ extension MainView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        var answer: Bool = false
+        
+        if let id = pictures?[indexPath.row].id {
+            answer = DataProvider.shared.chechImage(id: id)
+        }
+        
+        // MARK: - Check image save in memory
+        if answer {
+            cell.saveImageButton.isHidden = true
+        } else {
+            cell.saveImageButton.tag = indexPath.row
+            cell.saveImageButton.addTarget(self, action: #selector(savePictureLocalMemory), for: .touchUpInside)
+        }
+        
         let size = screenWidth / 4
         cell.configurationCell(size)
         
         if let smallImage = pictures?[indexPath.row].urls.small,
+            let id = pictures?[indexPath.row].id,
             let url = URL(string: smallImage) {
-            DataProvider.shared.downloadImageUrl(url: url) { (image) in
+            DataProvider.shared.downloadImageUrl(id: id, url: url) { (image) in
                 cell.imageView.image = image
             }
         }
+        //MARK: - Add Double Tap in image
+        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        tap.numberOfTapsRequired = 2
+        cell.addGestureRecognizer(tap)
         
-        cell.saveImageButton.addTarget(self, action: #selector(savePictureLocalMemory), for: .touchDown)
         return cell
     }
 }
@@ -154,16 +304,27 @@ extension MainView: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if !searchText.isEmpty {
-            self.presenter?.searchText(searchText)
-        } else {
+        if searchText.isEmpty {
             self.presenter?.getImage()
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-        self.endEditing(true)
+        dismissKeyboard()
+    
+        guard let searchText = searchBar.text, !searchText.isEmpty else {
+            return
+        }
+        self.presenter?.searchText(searchText)
+        
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.addGestureRecognizer(tapRecognizer)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.removeGestureRecognizer(tapRecognizer)
     }
 }
 

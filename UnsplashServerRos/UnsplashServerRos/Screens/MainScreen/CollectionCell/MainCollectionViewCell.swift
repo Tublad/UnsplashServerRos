@@ -20,6 +20,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         imageView.image = nil
+        self.reloadInputViews()
     }
     
     func configurationCell(_ size: CGFloat) {

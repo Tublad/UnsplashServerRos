@@ -16,10 +16,9 @@ protocol LocalViewImpl {
 
 final class LocalView: UIView {
     
-    var pictures: Picture?
-    
     //MARK: - Private properties
     private var presenter: LocalViewAction?
+    private var listsImage: [UIImage]?
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -43,7 +42,7 @@ final class LocalView: UIView {
         collectionView.backgroundColor = .black
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(MainCollectionViewCell.nib, forCellWithReuseIdentifier: MainCollectionViewCell.reuseId)
+        collectionView.register(LocalCollectionViewCell.nib, forCellWithReuseIdentifier: LocalCollectionViewCell.reuseId)
         
         self.addSubview(collectionView)
         return collectionView
@@ -63,12 +62,21 @@ final class LocalView: UIView {
     
     //MARK: - Private metods
     fileprivate func setupUI() {
+        self.backgroundColor = .white
         setupCollectionView()
+        getContent()
      // to do ...
     }
     
+    private func getContent() {
+        DataProvider.shared.getSaveImageInLocalMemory(completion: { [weak self] (listImage) in
+            self?.listsImage = listImage
+            self?.collectionView.reloadData()
+        })
+    }
+    
     private func setupCollectionView() {
-        collectionView.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
@@ -85,32 +93,27 @@ extension LocalView: LocalViewImpl {
 
 //MARK: - CollectionDelegate
 extension LocalView: UICollectionViewDelegate {
-    // to do выбор ячейки для выделения, в общий массив и сохранение фотографий на локальный диск списком
+    // to do ... for click me
 }
 
 //MARK: - CollectionDataSource
 extension LocalView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pictures?.count ?? 0
+        listsImage?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.reuseId, for: indexPath) as? MainCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocalCollectionViewCell.reuseId, for: indexPath) as? LocalCollectionViewCell else {
             return UICollectionViewCell()
         }
         
         let size = screenWidth / 4
         cell.configurationCell(size)
-        
-        if let smallImage = pictures?[indexPath.row].urls.small,
-            let url = URL(string: smallImage) {
-            DataProvider.shared.downloadImageUrl(url: url) { (image) in
-                cell.imageView.image = image
-            }
-        }
-        
+    
+        let image = listsImage?[indexPath.row]
+        cell.imageView.image = image
         return cell
     }
 }
