@@ -31,14 +31,13 @@ final class UnsplashServer {
             do {
                 let picture = try JSONDecoder().decode(Picture.self, from: data)
                 complitionHandler(picture, error)
-                print(picture)
             } catch {
-                print(error)
+                print(" вот он и nil \(error)")
             }
         }.resume()
     }
     
-    static func searchImageInUnsplashServer(_ searchName: String) {
+    static func searchImageInUnsplashServer(_ searchName: String, complitionHandler: @escaping (SearchPicture, Error?) -> Void) {
         let searchUrl = "https://api.unsplash.com/search/photos?query="
         let pageCount = "&per_page=50&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
         
@@ -52,9 +51,9 @@ final class UnsplashServer {
             
             do {
                 let picture = try JSONDecoder().decode(SearchPicture.self, from: data)
-                print(picture.results.count)
+                complitionHandler(picture,error)
             } catch {
-                print(error)
+                print("А это собственно уже nil из поисковика \(error)")
             }
         }.resume()
     }

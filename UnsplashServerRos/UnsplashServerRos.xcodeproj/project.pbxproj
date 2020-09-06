@@ -23,7 +23,14 @@
 		A9202A9C2500E04F00477B14 /* MainCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9202A9B2500E04F00477B14 /* MainCollectionViewCell.xib */; };
 		A9202AA025010A5F00477B14 /* PresentPictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202A9F25010A5F00477B14 /* PresentPictureViewController.swift */; };
 		A9202AA525010D7C00477B14 /* UnsplashServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AA425010D7C00477B14 /* UnsplashServer.swift */; };
-		A9202AA9250165F100477B14 /* ImageViewLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AA8250165F100477B14 /* ImageViewLoader.swift */; };
+		A9202AAB250223FE00477B14 /* LocalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AAA250223FE00477B14 /* LocalViewController.swift */; };
+		A9202AAD2502240900477B14 /* LocalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AAC2502240900477B14 /* LocalView.swift */; };
+		A9202AAF2502241C00477B14 /* LocalCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AAE2502241C00477B14 /* LocalCoordinator.swift */; };
+		A9202AB12502242900477B14 /* LocalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AB02502242900477B14 /* LocalPresenter.swift */; };
+		A9202AB725023ED600477B14 /* UIColor + customColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AB625023ED600477B14 /* UIColor + customColor.swift */; };
+		A9202AB92502474100477B14 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AB82502474100477B14 /* DataProvider.swift */; };
+		A943AFB92504D3EF00BCBED1 /* LocalColletionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A943AFB82504D3EF00BCBED1 /* LocalColletionViewCell.swift */; };
+		A943AFBB2504D3FD00BCBED1 /* LocalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A943AFBA2504D3FD00BCBED1 /* LocalCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +52,14 @@
 		A9202A9B2500E04F00477B14 /* MainCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9202A9F25010A5F00477B14 /* PresentPictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentPictureViewController.swift; sourceTree = "<group>"; };
 		A9202AA425010D7C00477B14 /* UnsplashServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashServer.swift; sourceTree = "<group>"; };
-		A9202AA8250165F100477B14 /* ImageViewLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewLoader.swift; sourceTree = "<group>"; };
+		A9202AAA250223FE00477B14 /* LocalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalViewController.swift; sourceTree = "<group>"; };
+		A9202AAC2502240900477B14 /* LocalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalView.swift; sourceTree = "<group>"; };
+		A9202AAE2502241C00477B14 /* LocalCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCoordinator.swift; sourceTree = "<group>"; };
+		A9202AB02502242900477B14 /* LocalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPresenter.swift; sourceTree = "<group>"; };
+		A9202AB625023ED600477B14 /* UIColor + customColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + customColor.swift"; sourceTree = "<group>"; };
+		A9202AB82502474100477B14 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		A943AFB82504D3EF00BCBED1 /* LocalColletionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalColletionViewCell.swift; sourceTree = "<group>"; };
+		A943AFBA2504D3FD00BCBED1 /* LocalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocalCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +126,6 @@
 		A9202A842500CE8100477B14 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				A9202A9E25010A0100477B14 /* PresentPictureScreens */,
 				A9202A862500CED900477B14 /* SecondScreen */,
 				A9202A852500CEC300477B14 /* MainScreen */,
 			);
@@ -134,6 +147,12 @@
 		A9202A862500CED900477B14 /* SecondScreen */ = {
 			isa = PBXGroup;
 			children = (
+				A943AFB72504D3D100BCBED1 /* LocalCollectionViewCell */,
+				A9202AAA250223FE00477B14 /* LocalViewController.swift */,
+				A9202AAC2502240900477B14 /* LocalView.swift */,
+				A9202AAE2502241C00477B14 /* LocalCoordinator.swift */,
+				A9202AB02502242900477B14 /* LocalPresenter.swift */,
+				A9202A9E25010A0100477B14 /* PresentPictureScreens */,
 			);
 			path = SecondScreen;
 			sourceTree = "<group>";
@@ -167,6 +186,7 @@
 		A9202A9D2501065400477B14 /* Extenstions */ = {
 			isa = PBXGroup;
 			children = (
+				A9202AB625023ED600477B14 /* UIColor + customColor.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -183,9 +203,18 @@
 			isa = PBXGroup;
 			children = (
 				A9202AA425010D7C00477B14 /* UnsplashServer.swift */,
-				A9202AA8250165F100477B14 /* ImageViewLoader.swift */,
+				A9202AB82502474100477B14 /* DataProvider.swift */,
 			);
 			path = UnsplashServer;
+			sourceTree = "<group>";
+		};
+		A943AFB72504D3D100BCBED1 /* LocalCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				A943AFB82504D3EF00BCBED1 /* LocalColletionViewCell.swift */,
+				A943AFBA2504D3FD00BCBED1 /* LocalCollectionViewCell.xib */,
+			);
+			path = LocalCollectionViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +278,7 @@
 				A9202A772500CCA700477B14 /* LaunchScreen.storyboard in Resources */,
 				A9202A742500CCA700477B14 /* Assets.xcassets in Resources */,
 				A9202A9C2500E04F00477B14 /* MainCollectionViewCell.xib in Resources */,
+				A943AFBB2504D3FD00BCBED1 /* LocalCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,18 +289,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9202AAD2502240900477B14 /* LocalView.swift in Sources */,
+				A9202AAB250223FE00477B14 /* LocalViewController.swift in Sources */,
+				A9202AB92502474100477B14 /* DataProvider.swift in Sources */,
 				A9202A8B2500CFF300477B14 /* MainCoordinator.swift in Sources */,
 				A9202A6C2500CCA600477B14 /* MainViewController.swift in Sources */,
 				A9202A892500CF7F00477B14 /* MainView.swift in Sources */,
+				A943AFB92504D3EF00BCBED1 /* LocalColletionViewCell.swift in Sources */,
 				A9202A832500CDCF00477B14 /* BaseCoordinator.swift in Sources */,
 				A9202AA525010D7C00477B14 /* UnsplashServer.swift in Sources */,
 				A9202A682500CCA600477B14 /* AppDelegate.swift in Sources */,
 				A9202A802500CD9600477B14 /* AppCoordinator.swift in Sources */,
 				A9202A992500E03300477B14 /* MainCollectionViewCell.swift in Sources */,
+				A9202AB12502242900477B14 /* LocalPresenter.swift in Sources */,
 				A9202A6A2500CCA600477B14 /* SceneDelegate.swift in Sources */,
-				A9202AA9250165F100477B14 /* ImageViewLoader.swift in Sources */,
 				A9202A722500CCA600477B14 /* UnsplashServerRos.xcdatamodeld in Sources */,
 				A9202AA025010A5F00477B14 /* PresentPictureViewController.swift in Sources */,
+				A9202AB725023ED600477B14 /* UIColor + customColor.swift in Sources */,
+				A9202AAF2502241C00477B14 /* LocalCoordinator.swift in Sources */,
 				A9202A972500DEF600477B14 /* Picture.swift in Sources */,
 				A9202A8D2500D01200477B14 /* MainPresenter.swift in Sources */,
 			);

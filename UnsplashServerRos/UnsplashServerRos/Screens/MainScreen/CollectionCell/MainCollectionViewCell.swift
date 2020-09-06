@@ -18,6 +18,11 @@ class MainCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var saveImageButton: UIButton!
     
+    override func prepareForReuse() {
+        imageView.image = nil
+        self.reloadInputViews()
+    }
+    
     func configurationCell(_ size: CGFloat) {
         self.layer.borderColor = UIColor.black.cgColor
         self.layer.borderWidth = 2
