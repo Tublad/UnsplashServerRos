@@ -272,6 +272,8 @@ extension MainView: UICollectionViewDataSource {
                 cell.imageView.image = image
             }
         }
+        
+        
         return cell
     }
 }
