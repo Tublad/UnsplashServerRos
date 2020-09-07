@@ -15,13 +15,20 @@ class LocalCollectionViewCell: UICollectionViewCell {
         UINib(nibName: "LocalCollectionViewCell", bundle: nil)
     }()
     
+    @IBOutlet weak var saveImageButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var deleteImageButton: UIButton!
     
-    func configurationCell(_ size: CGFloat) {
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = 2
-        self.frame.size.width = size
-        self.frame.size.height = size
+    override var isSelected: Bool  {
+        didSet {
+            if isSelected {
+                self.layer.borderWidth = 2
+                self.layer.borderColor = UIColor.white.cgColor
+            } else {
+                self.layer.borderWidth = 0
+                self.layer.borderColor = UIColor.clear.cgColor
+            }
+        }
     }
     
 }

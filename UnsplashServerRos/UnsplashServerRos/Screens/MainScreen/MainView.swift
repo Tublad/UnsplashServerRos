@@ -18,6 +18,7 @@ final class MainView: UIView {
     private var presenter: MainViewAction?
     private var saveCountImage: Picture = Picture()
     private var buttonRow: Int = 0
+    private var addList: IndexPath = IndexPath()
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -164,6 +165,15 @@ final class MainView: UIView {
             }
         }
     }
+    
+    private func checkImageInLocalMemory(indexPath: IndexPath) -> Bool {
+        var answer: Bool = false
+        if let id = pictures?[indexPath.row].id {
+            answer = DataProvider.shared.chechImage(id: id)
+        }
+        return answer
+    }
+    
 }
 
 extension MainView: MainViewImpl {
@@ -222,28 +232,15 @@ extension MainView: MainViewImpl {
 //MARK: - CollectionDelegate
 extension MainView: UICollectionViewDelegate {
     // to do выбор ячейки для выделения, в общий массив и сохранение фотографий на локальный диск списком
-    
+ 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let selectedCell : UICollectionViewCell = collectionView.cellForItem(at: indexPath) as? MainCollectionViewCell else { return }
         presenter?.getButtonForSaveList()
-        
         saveImage(index: indexPath.row)
-        
-        selectedCell.layer.borderColor = UIColor.white.cgColor
-        selectedCell.isSelected = true
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
-        guard let unselectedCell : UICollectionViewCell = collectionView.cellForItem(at: indexPath) as? MainCollectionViewCell else { return }
         deleteImage(index: indexPath.row)
-
-        unselectedCell.layer.borderColor = UIColor.black.cgColor
-        unselectedCell.isSelected = false
     }
-    
-    
 }
 
 //MARK: - CollectionDataSource
@@ -258,15 +255,9 @@ extension MainView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.reuseId, for: indexPath) as? MainCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        var answer: Bool = false
-        
-        if let id = pictures?[indexPath.row].id {
-            answer = DataProvider.shared.chechImage(id: id)
-        }
-        
+        collectionView.reloadItems(at: [indexPath])
         // MARK: - Check image save in memory
-        if answer {
+        if checkImageInLocalMemory(indexPath: indexPath) {
             cell.saveImageButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
             cell.saveImageButton.isEnabled = false
         } else {
@@ -274,21 +265,13 @@ extension MainView: UICollectionViewDataSource {
             cell.saveImageButton.addTarget(self, action: #selector(savePictureLocalMemory), for: .touchUpInside)
         }
         
-        let size = screenWidth / 4
-        cell.configurationCell(size)
-        
         if let smallImage = pictures?[indexPath.row].urls.small,
             let id = pictures?[indexPath.row].id,
             let url = URL(string: smallImage) {
-            DataProvider.shared.downloadImageUrl(id: id, url: url) { (image) in
+            DataProvider.shared.downloadImageUrl(id: id, url: url) { [weak self] (image) in
                 cell.imageView.image = image
             }
         }
-        //MARK: - Add Double Tap in image
-        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        tap.numberOfTapsRequired = 2
-        cell.addGestureRecognizer(tap)
-        
         return cell
     }
 }

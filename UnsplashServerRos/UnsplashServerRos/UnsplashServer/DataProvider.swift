@@ -52,9 +52,10 @@ class DataProvider {
     func saveImageInLocalMemory(key: String) {
         guard !key.isEmpty else { return }
         
+//        print("Ключ по которому начинаю сохранять\(key)")
         guard let image = imageCache.object(forKey: key as NSString),
             !listSaveImage.contains(image) else {
-                return print("Данная картинка уже имееться в локальной памяти")
+                return  //print("Данная картинка уже имееться в локальной памяти")
         }
         saveImageCache.setObject(image, forKey: key as NSString)
         listSaveImage.append(image)
@@ -68,7 +69,15 @@ class DataProvider {
     
     // MARK: - Check image
     func chechImage(id: String) -> Bool {
-        guard saveImageCache.object(forKey: id as NSString) != nil else { return false }
-        return true
+        var count = 0
+//        print("Проверяю по этому ключу, если ли фотографии\(id)")
+        guard let image = saveImageCache.object(forKey: id as NSString) else { return false }
+        for value in listSaveImage {
+            if value == image {
+                count += 1
+                break
+            }
+        }
+        return count <= 0 ? false : true 
     }
 }

@@ -12,7 +12,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     static var reuseId: String = "MainCollectionViewCell"
     static var nib: UINib = {
-       UINib(nibName: "MainCollectionViewCell", bundle: nil)
+        UINib(nibName: "MainCollectionViewCell", bundle: nil)
     }()
     
     @IBOutlet weak var imageView: UIImageView!
@@ -20,18 +20,23 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         imageView.image = nil
-        saveImageButton.imageView?.image = nil
+        saveImageButton.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
+        saveImageButton.isEnabled = true 
+        self.layer.borderWidth = 0
+        self.layer.borderColor = UIColor.clear.cgColor
     }
     
-    func configurationCell(_ size: CGFloat) {
-        self.layer.cornerRadius = 1
-        self.clipsToBounds = true
-        
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = 2
-        self.layer.masksToBounds = false 
-        self.frame.size.width = size
-        self.frame.size.height = size
+    override var isSelected: Bool  {
+        didSet {
+            if isSelected {
+                self.layer.borderWidth = 2
+                self.layer.borderColor = UIColor.white.cgColor
+            } else {
+                self.layer.borderWidth = 0
+                self.layer.borderColor = UIColor.clear.cgColor
+            }
+        }
     }
+    
     
 }

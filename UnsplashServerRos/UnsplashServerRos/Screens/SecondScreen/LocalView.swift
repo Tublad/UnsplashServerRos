@@ -40,6 +40,8 @@ final class LocalView: UIView {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .black
+        collectionView.allowsMultipleSelection = true
+        collectionView.isUserInteractionEnabled = true 
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(LocalCollectionViewCell.nib, forCellWithReuseIdentifier: LocalCollectionViewCell.reuseId)
@@ -108,9 +110,6 @@ extension LocalView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocalCollectionViewCell.reuseId, for: indexPath) as? LocalCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        let size = screenWidth / 4
-        cell.configurationCell(size)
     
         let image = listsImage?[indexPath.row]
         cell.imageView.image = image
