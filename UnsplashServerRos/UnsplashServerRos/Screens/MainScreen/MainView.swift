@@ -18,7 +18,6 @@ final class MainView: UIView {
     private var presenter: MainViewAction?
     private var saveCountImage: Picture = Picture()
     private var buttonRow: Int = 0
-    private var addList: IndexPath = IndexPath()
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -166,6 +165,7 @@ final class MainView: UIView {
         }
     }
     
+    // MARK: - Check image save in memory
     private func checkImageInLocalMemory(indexPath: IndexPath) -> Bool {
         var answer: Bool = false
         if let id = pictures?[indexPath.row].id {
@@ -256,7 +256,7 @@ extension MainView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         collectionView.reloadItems(at: [indexPath])
-        // MARK: - Check image save in memory
+        
         if checkImageInLocalMemory(indexPath: indexPath) {
             cell.saveImageButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
             cell.saveImageButton.isEnabled = false
