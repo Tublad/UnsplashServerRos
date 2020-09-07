@@ -12,6 +12,7 @@ protocol MainViewImpl {
 
 final class MainView: UIView {
     
+    //MARK: - Open properties
     var pictures: Picture?
     
     //MARK: - Private properties
@@ -273,6 +274,9 @@ extension MainView: UICollectionViewDataSource {
             }
         }
         
+        cell.imageClicked = { [weak self] image in
+            self?.presenter?.pickImage()
+        }
         
         return cell
     }

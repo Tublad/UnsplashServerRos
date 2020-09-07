@@ -31,4 +31,8 @@ class LocalCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    override func awakeFromNib() {
+        imageView.isUserInteractionEnabled = true 
+    }
+    
 }

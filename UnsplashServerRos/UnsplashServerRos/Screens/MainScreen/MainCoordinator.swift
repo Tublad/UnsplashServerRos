@@ -4,6 +4,7 @@ import UIKit
 
 protocol MainCoordination {
     func showLocalViewController()
+    func showPhotoGallery()
 }
 
 
@@ -11,7 +12,6 @@ final class MainCoordinator: BaseCoordirator {
     
     //MARK: - Private properties
     private let navController: UINavigationController
-    
     
     //MARK: - Init
     init(navController: UINavigationController) {
@@ -39,6 +39,14 @@ extension MainCoordinator: MainCoordination {
         localCoordinator.start()
         self.parentCoordinator?.didFinish(coordinator: self)
     }
+    
+    func showPhotoGallery() {
+        let photoGalleryCoordinator = PhotoGalleryCoordinator(navController: navController)
+        self.parentCoordinator?.setDependence(withChildCoordinator: photoGalleryCoordinator)
+        photoGalleryCoordinator.start()
+        self.parentCoordinator?.didFinish(coordinator: self)
+    }
+    
     
 }
 
