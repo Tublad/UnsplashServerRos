@@ -19,6 +19,7 @@ final class MainView: UIView {
     private var presenter: MainViewAction?
     private var saveCountImage: Picture = Picture()
     private var buttonRow: Int = 0
+    private var sourceView: UIView?
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -175,6 +176,12 @@ final class MainView: UIView {
         return answer
     }
     
+    private func getContentForGalleryView() {
+        guard let listImage = pictures,
+        let view = sourceView else { return }
+        self.presenter?.sourceView(view: view, picture: listImage, count: buttonRow)
+    }
+    
 }
 
 extension MainView: MainViewImpl {
@@ -205,11 +212,6 @@ extension MainView: MainViewImpl {
         self.presenter = presenter
     }
     
-    @objc func doubleTapped(_ sender: UIButton) {
-        print("Click click double")
-        // to do ... show picture full and present
-    }
-    
     @objc func savePictureLocalMemory(_ sender: UIButton) {
         buttonRow = sender.tag
         
@@ -236,6 +238,7 @@ extension MainView: UICollectionViewDelegate {
  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter?.getButtonForSaveList()
+        buttonRow = indexPath.row
         saveImage(index: indexPath.row)
     }
     
@@ -275,9 +278,10 @@ extension MainView: UICollectionViewDataSource {
         }
         
         cell.imageClicked = { [weak self] image in
-            self?.presenter?.pickImage()
+            self?.sourceView = image
+            self?.getContentForGalleryView()
         }
-        
+     
         return cell
     }
 }

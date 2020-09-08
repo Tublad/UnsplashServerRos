@@ -33,6 +33,17 @@ final class PhotoGalleryCoordinator: BaseCoordirator {
         
         navController.pushViewController(vc, animated: true)
     }
+    
+    func startPhotoGallery(picture: Picture, count: Int) {
+        let vc = PhotoGalleryViewController()
+        let presenter = PhotoGalleryPresenter(view: vc, coordinator: self)
+        vc.presenter = presenter
+        vc.picture = picture
+        vc.count = count
+        print("Нужно показать именно с этим нумерацию \(count)")
+        navController.pushViewController(vc, animated: true)
+    }
+    
 }
 
 

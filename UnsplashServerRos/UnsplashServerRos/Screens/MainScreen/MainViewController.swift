@@ -14,7 +14,6 @@ final class MainViewController: UIViewController, ImageViewPresenterSource {
     // презентору сообщаем обо всех действиях и передаем данные, например: презентер, была нажата кнопка войти
     var presenter: MainViewAction?
     var source: UIView?
-    
     //MARK: - Private properties
     
     //вью просим отобразить контент
@@ -54,13 +53,9 @@ final class MainViewController: UIViewController, ImageViewPresenterSource {
 }
 
 extension MainViewController: MainViewControllerImpl {
-    
-    func presentAnimationImage(views: UIView) {
-        // to do presentImage
-        self.source = views
-        print("ВНАТУРЕ РАБОТАЕТ!!!! ААААААААА Я МОГЮ Я МОЛОДЕЦ ")
-        self.presenter?.pickImage()
-        // to do showGaleryController 
+    func sourceView(view: UIView, picture: Picture, count: Int) {
+        self.source = view
+        self.presenter?.showGalleryViewController(vc: self, picture: picture, count: count)
     }
     
     func deleteButton() {
@@ -108,9 +103,5 @@ extension MainViewController: MainViewControllerImpl {
         self.presenter?.showLocalViewController()
     }
     
-    func doubleTap() {
-        presenter?.actionDoubleTap()
-    }
-
 }
 

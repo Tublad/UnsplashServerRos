@@ -40,6 +40,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         imageClicked?(imageView)
     }
     
+    
     override var isSelected: Bool  {
         didSet {
             if isSelected {

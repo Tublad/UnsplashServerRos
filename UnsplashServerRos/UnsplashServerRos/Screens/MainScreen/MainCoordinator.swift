@@ -4,7 +4,7 @@ import UIKit
 
 protocol MainCoordination {
     func showLocalViewController()
-    func showPhotoGallery()
+    func showPhotoGallery(vc: MainViewController, picture: Picture, count: Int)
 }
 
 
@@ -40,13 +40,13 @@ extension MainCoordinator: MainCoordination {
         self.parentCoordinator?.didFinish(coordinator: self)
     }
     
-    func showPhotoGallery() {
+    func showPhotoGallery(vc: MainViewController, picture: Picture, count: Int) {
+        let delegate = ImageViewerPresenter(delegate: vc)
+        navController.delegate = delegate
         let photoGalleryCoordinator = PhotoGalleryCoordinator(navController: navController)
         self.parentCoordinator?.setDependence(withChildCoordinator: photoGalleryCoordinator)
-        photoGalleryCoordinator.start()
+        photoGalleryCoordinator.startPhotoGallery(picture: picture, count: count)
         self.parentCoordinator?.didFinish(coordinator: self)
     }
-    
-    
 }
 

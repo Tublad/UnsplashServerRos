@@ -2,7 +2,7 @@
 //  ImageViewerPresenter.swift
 //  UnsplashServerRos
 //
-//  Created by Евгений Шварцкопф on 07.09.2020.
+//  Created by Евгений Шварцкопф on 08.09.2020.
 //  Copyright © 2020 Евгений Шварцкопф. All rights reserved.
 //
 
@@ -13,27 +13,25 @@ protocol ImageViewPresenterSource: UIViewController {
 }
 
 class ImageViewerPresenter: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
-    
     var animatorSource: ImageViewPresenterSource?
     var animator = PopAnimator()
     
     init(delegate: ImageViewPresenterSource) {
-        self.animatorSource = delegate
+        animatorSource = delegate
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
         guard let sourceView = animatorSource?.source,
-            let view = UIApplication.topViewController()?.navigationController?.view,
-            let original = sourceView.superview?.convert(sourceView.frame,
-                                                         to: view)  else {
-                                                            return nil
+            let origin = sourceView.superview?.convert(sourceView.frame,
+                                                       to: UIApplication.topViewController()?.navigationController?.view) else {
+             return nil
         }
-        animator.originalFrame = CGRect(x: original.minX,
-                                        y: original.minY,
-                                        width: original.size.width,
-                                        height: original.size.height)
+        
+        animator.originFrame = CGRect(x: origin.minX,
+                                      y: origin.minY,
+                                      width: origin.size.width,
+                                      height: origin.size.height)
         return animator
     }
-    
-    
 }

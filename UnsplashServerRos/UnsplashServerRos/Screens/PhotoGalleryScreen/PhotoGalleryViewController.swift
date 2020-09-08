@@ -13,6 +13,8 @@ final class PhotoGalleryViewController: UIViewController {
     //MARK: - Open properties
     // презентору сообщаем обо всех действиях и передаем данные, например: презентер, была нажата кнопка войти
     var presenter: PhotoGalleryViewAction?
+    var picture: Picture?
+    var count: Int?
     
     //MARK: - Private properties
     
@@ -30,6 +32,7 @@ final class PhotoGalleryViewController: UIViewController {
         
         if let view = photoGalleryView, let presenter = presenter {
             view.setPresenter(presenter)
+            view.getContent(picture: picture ?? Picture(), count: count ?? 0)
         }
         setNavigation()
     }
