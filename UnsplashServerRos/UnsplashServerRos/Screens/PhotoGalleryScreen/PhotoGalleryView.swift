@@ -82,7 +82,7 @@ final class PhotoGalleryView: UIView {
             let unwrapPicture = picture else { return }
         var count = 0
         for value in 0..<maxCount {
-            if needIndex > value {
+            if needIndex >= value {
                 array.append(unwrapPicture[needIndex - value])
             } else if needIndex == value {
                 count = value
@@ -98,6 +98,11 @@ final class PhotoGalleryView: UIView {
 extension PhotoGalleryView: PhotoGalleryViewImpl {
     
     func getContent(picture: Picture, count: Int) {
+        // deleta
+        self.picture = nil
+        self.count = 0
+        self.newPicture = nil
+        // new value
         self.picture = picture
         self.count = count
         checkIndex()
@@ -106,7 +111,6 @@ extension PhotoGalleryView: PhotoGalleryViewImpl {
     func setPresenter(_ presenter: PhotoGalleryViewAction) {
         self.presenter = presenter
     }
-    
 }
 
 //MARK: - CollectionDelegate
