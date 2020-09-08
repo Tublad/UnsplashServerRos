@@ -2,19 +2,19 @@
 //  PopAnimator.swift
 //  UnsplashServerRos
 //
-//  Created by Евгений Шварцкопф on 07.09.2020.
+//  Created by Евгений Шварцкопф on 08.09.2020.
 //  Copyright © 2020 Евгений Шварцкопф. All rights reserved.
 //
 
 import UIKit
 
 class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-
-    let duration = 1.0
-    var originalFrame = CGRect.zero
+    
+    let duration = 0.5
+    var originFrame = CGRect.zero
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return duration
+        duration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -24,13 +24,12 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         let finalFrame = recipeView.frame
         
-        let xScaleFrame = originalFrame.width / finalFrame.width
-        let yScaleFrame = originalFrame.height / finalFrame.height
-        let scaleTransform = CGAffineTransform(scaleX: xScaleFrame, y: yScaleFrame)
+        let xScaleFactor = originFrame.width / finalFrame.width
+        let yScaleFactor = originFrame.height / finalFrame.height
+        let scaleTransform = CGAffineTransform(scaleX: xScaleFactor, y: yScaleFactor)
         
         recipeView.transform = scaleTransform
-        recipeView.center = CGPoint(x: originalFrame.midX, y: originalFrame.midY)
-        
+        recipeView.center = CGPoint(x: originFrame.midX, y: originFrame.midY)
         recipeView.clipsToBounds = true
         
         conteinerView.addSubview(toView)
@@ -40,9 +39,9 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                        animations: {
                         recipeView.transform = .identity
                         recipeView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+                        
         }) { (isCompletion) in
             transitionContext.completeTransition(isCompletion)
         }
     }
-    
 }

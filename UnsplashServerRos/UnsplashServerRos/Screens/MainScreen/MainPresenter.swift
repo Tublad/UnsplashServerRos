@@ -7,10 +7,11 @@ protocol MainViewAction: class {
     func searchText(_ text: String)
     func getImage()
     func showLocalViewController()
-    func actionDoubleTap()
+    func showGalleryViewController(vc: MainViewController, picture: Picture, count: Int)
+//    func actionDoubleTap()
     func getButtonForSaveList()
     func deleteButtonSave()
-    func pickImage()
+    func sourceView(view: UIView, picture: Picture, count: Int)
 }
 
 protocol MainViewControllerImpl: class {
@@ -18,8 +19,9 @@ protocol MainViewControllerImpl: class {
     func getUnsplashServiceContent()
     func searchImageInUnsplashServer(text: String)
     func showButton()
-    func doubleTap()
+//    func doubleTap()
     func deleteButton()
+    func sourceView(view: UIView, picture: Picture, count: Int)
 }
 
 
@@ -40,8 +42,12 @@ final class MainPresenter {
 
 extension MainPresenter: MainViewAction {
     
-    func pickImage() {
-        self.coordinator.showPhotoGallery()
+    func showGalleryViewController(vc: MainViewController, picture: Picture, count: Int) {
+        self.coordinator.showPhotoGallery(vc: vc, picture: picture, count: count)
+    }
+    
+    func sourceView(view: UIView, picture: Picture, count: Int) {
+        self.view?.sourceView(view: view, picture: picture, count: count)
     }
     
     func deleteButtonSave() {
@@ -60,9 +66,9 @@ extension MainPresenter: MainViewAction {
         self.view?.getUnsplashServiceContent()
     }
     
-    func actionDoubleTap() {
-        self.view?.doubleTap()
-    }
+//    func actionDoubleTap() {
+//        self.view?.doubleTap()
+//    }
     
     func showLocalViewController() {
         self.coordinator.showLocalViewController()
