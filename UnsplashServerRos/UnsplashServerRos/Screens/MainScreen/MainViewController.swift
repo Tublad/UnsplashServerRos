@@ -8,11 +8,12 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, ImageViewPresenterSource {
     
     //MARK: - Open properties
     // презентору сообщаем обо всех действиях и передаем данные, например: презентер, была нажата кнопка войти
     var presenter: MainViewAction?
+    var source: UIView?
     
     //MARK: - Private properties
     
@@ -52,8 +53,15 @@ final class MainViewController: UIViewController {
     }
 }
 
-
 extension MainViewController: MainViewControllerImpl {
+    
+    func presentAnimationImage(views: UIView) {
+        // to do presentImage
+        self.source = views
+        print("ВНАТУРЕ РАБОТАЕТ!!!! ААААААААА Я МОГЮ Я МОЛОДЕЦ ")
+        self.presenter?.pickImage()
+        // to do showGaleryController 
+    }
     
     func deleteButton() {
         navigationItem.leftBarButtonItem = nil
@@ -105,3 +113,4 @@ extension MainViewController: MainViewControllerImpl {
     }
 
 }
+

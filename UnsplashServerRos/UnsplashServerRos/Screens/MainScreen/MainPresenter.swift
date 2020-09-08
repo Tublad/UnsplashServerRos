@@ -1,5 +1,5 @@
 
-import Foundation
+import UIKit
 
 
 protocol MainViewAction: class {
@@ -10,6 +10,7 @@ protocol MainViewAction: class {
     func actionDoubleTap()
     func getButtonForSaveList()
     func deleteButtonSave()
+    func pickImage()
 }
 
 protocol MainViewControllerImpl: class {
@@ -38,6 +39,10 @@ final class MainPresenter {
 
 
 extension MainPresenter: MainViewAction {
+    
+    func pickImage() {
+        self.coordinator.showPhotoGallery()
+    }
     
     func deleteButtonSave() {
         self.view?.deleteButton()

@@ -15,6 +15,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         UINib(nibName: "MainCollectionViewCell", bundle: nil)
     }()
     
+    var imageClicked: ((UIView) -> ())? = nil
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var saveImageButton: UIButton!
     
@@ -24,6 +26,18 @@ class MainCollectionViewCell: UICollectionViewCell {
         saveImageButton.isEnabled = true 
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.clear.cgColor
+    }
+    
+    override func awakeFromNib() {
+        imageView.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(pickImage))
+        tap.numberOfTapsRequired = 2
+        addGestureRecognizer(tap)
+    }
+    
+    @objc func pickImage() {
+        imageClicked?(imageView)
     }
     
     override var isSelected: Bool  {
