@@ -23,4 +23,6 @@ class PhotoGalleryViewCell: UICollectionViewCell {
     }
     
     
+    
+    
 }
