@@ -50,13 +50,6 @@ final class MainView: UIView {
         return collectionView
     }()
     
-    private lazy var chooseView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.grayChoose
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = "Save"

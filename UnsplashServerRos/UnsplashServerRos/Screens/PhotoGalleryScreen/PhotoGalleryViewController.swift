@@ -39,6 +39,9 @@ final class PhotoGalleryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let view = photoGalleryView {
+            view.scrollCollection()
+        }
     }
     
     //MARK: - Private metods

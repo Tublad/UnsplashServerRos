@@ -23,7 +23,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         imageView.image = nil
         saveImageButton.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
-        saveImageButton.isEnabled = true 
+        saveImageButton.isEnabled = true
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.clear.cgColor
     }

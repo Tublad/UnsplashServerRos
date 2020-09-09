@@ -12,6 +12,7 @@ protocol PhotoGalleryViewImpl {
     //функции типа, покажи данные
     func setPresenter(_ presenter: PhotoGalleryViewAction)
     func getContent(picture: Picture, count: Int)
+    func scrollCollection()
 }
 
 
@@ -20,7 +21,6 @@ final class PhotoGalleryView: UIView {
     //MARK: - Open properties
     var picture: Picture?
     var count: Int?
-    var newPicture: Picture?
     
     //MARK: - Private properties
     private var presenter: PhotoGalleryViewAction?
@@ -74,38 +74,22 @@ final class PhotoGalleryView: UIView {
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
-    
-    private func checkIndex() {
-        var array: Picture = []
-        guard let maxCount = picture?.count,
-            let needIndex = count,
-            let unwrapPicture = picture else { return }
-        var count = 0
-        for value in 0..<maxCount {
-            if needIndex >= value {
-                array.append(unwrapPicture[needIndex - value])
-            } else if needIndex == value {
-                count = value
-            } else {
-                count += 1
-                array.append(unwrapPicture[count])
-            }
-        }
-        self.newPicture = array
-    }
+
 }
 
 extension PhotoGalleryView: PhotoGalleryViewImpl {
+    
+    func scrollCollection() {
+        collectionView.scrollToItem(at: .init(row: count ?? 0, section: 0), at: .centeredHorizontally, animated: false)
+    }
     
     func getContent(picture: Picture, count: Int) {
         // deleta
         self.picture = nil
         self.count = 0
-        self.newPicture = nil
         // new value
         self.picture = picture
         self.count = count
-        checkIndex()
     }
     
     func setPresenter(_ presenter: PhotoGalleryViewAction) {
@@ -117,7 +101,6 @@ extension PhotoGalleryView: PhotoGalleryViewImpl {
 
 extension PhotoGalleryView: UICollectionViewDelegate {
     // to do
-    
 }
 
 //MARK: - CollectionDataSource
@@ -125,7 +108,7 @@ extension PhotoGalleryView: UICollectionViewDelegate {
 extension PhotoGalleryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        newPicture?.count ?? 0
+        picture?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -134,14 +117,16 @@ extension PhotoGalleryView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if let fullImage = newPicture?[indexPath.row],
+        collectionView.reloadItems(at: [indexPath])
+        
+        if let fullImage = picture?[indexPath.row],
             let url = URL(string: fullImage.urls.full){
             DataProvider.shared.downloadImageUrl(id: fullImage.id, url: url) { (image) in
                 cell.imageView.image = image
             }
         }
         
-        if let fullCount = newPicture?.count {
+        if let fullCount = picture?.count {
             cell.countLabel.text = "\(indexPath.row + 1) из \(fullCount)"
         }
         

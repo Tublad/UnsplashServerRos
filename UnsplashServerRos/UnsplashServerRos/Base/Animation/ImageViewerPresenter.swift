@@ -14,7 +14,7 @@ protocol ImageViewPresenterSource: UIViewController {
 
 class ImageViewerPresenter: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     var animatorSource: ImageViewPresenterSource?
-    var animator = PopAnimator()
+    var animator = PushAnimator()
     
     init(delegate: ImageViewPresenterSource) {
         animatorSource = delegate
