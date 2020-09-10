@@ -26,7 +26,7 @@ class DataProvider {
         if let cachedImage = imageCache.object(forKey: id as NSString) {
             completion(cachedImage)
         } else {
-            let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 10)
+            let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 20)
             let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
                 
                 guard error == nil,
@@ -47,6 +47,7 @@ class DataProvider {
             dataTask.resume()
         }
     }
+//to dо... Убрать зависимость фотографий списка, из за ни возможная сильная связь и ячейки траят 
     
     // MARK: - Saving in local memory
     func saveImageInLocalMemory(key: String) {

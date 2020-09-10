@@ -15,12 +15,12 @@ enum RequestError: Error {
 
 final class UnsplashServer {
     
-    //complitionHandler: @escaping ([Picture], Error) -> Void
-   static func getImageUnsplashServerForShow(complitionHandler: @escaping (Picture, Error?) -> Void) {
+    static func getImageUnsplashServerForShow(_ count: Int = 1, complitionHandler: @escaping (Picture, Error?) -> Void) {
         let baseUrl = "https://api.unsplash.com/"
-        let photosUrl = "photos?per_page=28&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
-    
-        let urls = baseUrl + photosUrl
+        let pagesUrl = "photos?page="
+        let photoUrl = "&per_page=28&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
+        
+        let urls = baseUrl + pagesUrl + "\(count)" + photoUrl
         guard let fullUrl = URL(string: urls) else { return }
         
         let session = URLSession.shared
@@ -37,11 +37,12 @@ final class UnsplashServer {
         }.resume()
     }
     
-    static func searchImageInUnsplashServer(_ searchName: String, complitionHandler: @escaping (SearchPicture, Error?) -> Void) {
+    static func searchImageInUnsplashServer(_ count: Int = 1, _ searchName: String, complitionHandler: @escaping (SearchPicture, Error?) -> Void) {
         let searchUrl = "https://api.unsplash.com/search/photos?query="
-        let pageCount = "&per_page=28&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
+        let pageCount = "&page="
+        let photoCount = "&per_page=28&client_id=p1YRXPEkZGPz67f2Q265GQvNLPOFnoWV7sdmRl2hYe8"
         
-        let urls = searchUrl + searchName + pageCount
+        let urls = searchUrl + searchName + pageCount + "\(count)" + photoCount
         guard let fullUrl = URL(string: urls) else { return }
         
         let session = URLSession.shared

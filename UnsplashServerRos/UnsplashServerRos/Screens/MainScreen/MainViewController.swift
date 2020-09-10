@@ -75,7 +75,7 @@ extension MainViewController: MainViewControllerImpl {
     
     func searchImageInUnsplashServer(text: String) {
         if text.count > 0 {
-            UnsplashServer.searchImageInUnsplashServer(text) { [weak self] (searchPicture, error) in
+            UnsplashServer.searchImageInUnsplashServer(1, text) { [weak self] (searchPicture, error) in
                 if error != nil,
                    let error = error {
                     print(error.localizedDescription)
