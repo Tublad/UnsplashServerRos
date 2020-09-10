@@ -22,10 +22,13 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         imageView.image = nil
+        self.contentView.isUserInteractionEnabled = true
         saveImageButton.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
         saveImageButton.isEnabled = true
+        self.clipsToBounds = true
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.clear.cgColor
+        self.layer.masksToBounds = false 
     }
     
     override func awakeFromNib() {

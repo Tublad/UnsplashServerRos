@@ -20,6 +20,10 @@ final class MainView: UIView {
     private var saveCountImage: Picture = Picture()
     private var buttonRow: Int = 0
     private var sourceView: UIView?
+    private var pageCount: Int = 1
+    private var sectionIndexes = IndexPath()
+    private var reloadSectionIndex = IndexPath()
+    private var searchTexting = String()
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -33,7 +37,7 @@ final class MainView: UIView {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: screenWidth / 4, height: screenWidth / 4)
+        layout.itemSize = CGSize(width: screenWidth / 4 , height: screenWidth / 4 )
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         
@@ -42,6 +46,7 @@ final class MainView: UIView {
         collectionView.delegate = self
         collectionView.backgroundColor = .black
         collectionView.allowsMultipleSelection = true
+        collectionView.isPagingEnabled = true
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MainCollectionViewCell.nib, forCellWithReuseIdentifier: MainCollectionViewCell.reuseId)
@@ -112,7 +117,7 @@ final class MainView: UIView {
     }
     
     private func setupCollectionView() {
-        collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 2).isActive = true
+        collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
@@ -175,6 +180,38 @@ final class MainView: UIView {
         self.presenter?.sourceView(view: view, picture: listImage, count: buttonRow)
     }
     
+    private func showNewPage(indexPath: IndexPath) {
+        if indexPath.row != 0 && indexPath.row % 27 == 0 && indexPath.row + pageCount == pictures?.count {
+            pageCount += 1
+            UnsplashServer.getImageUnsplashServerForShow(pageCount) { [weak self] (pictureList, error) in
+                if error != nil,
+                    let error = error {
+                    print(error.localizedDescription)
+                }
+                DispatchQueue.main.async {
+                    self?.pictures?.append(contentsOf: pictureList)
+                    self?.collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
+    private func showNewPageInSearch(indexPath: IndexPath) {
+        if indexPath.row != 0 && indexPath.row % 27 == 0 && indexPath.row + pageCount == pictures?.count {
+            pageCount += 1
+            UnsplashServer.searchImageInUnsplashServer(pageCount, searchTexting) { [weak self] (pictureList, error) in
+                if error != nil,
+                    let error = error {
+                    print(error.localizedDescription)
+                }
+                DispatchQueue.main.async {
+                    self?.pictures?.append(contentsOf: pictureList.results)
+                    self?.collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
 }
 
 extension MainView: MainViewImpl {
@@ -187,6 +224,7 @@ extension MainView: MainViewImpl {
         
         UIView.animate(withDuration: 2, animations: {
             self.title.alpha = 0
+            self.collectionView.cellForItem(at: self.reloadSectionIndex)?.isSelected = false
         }, completion: nil)
         
         presenter?.deleteButtonSave()
@@ -198,7 +236,7 @@ extension MainView: MainViewImpl {
         
         DispatchQueue.main.async {
           self.collectionView.reloadData()
-        }  
+        }
     }
     
     func setPresenter(_ presenter: MainViewAction) {
@@ -228,16 +266,21 @@ extension MainView: MainViewImpl {
 //MARK: - CollectionDelegate
 extension MainView: UICollectionViewDelegate {
     // to do выбор ячейки для выделения, в общий массив и сохранение фотографий на локальный диск списком
- 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter?.getButtonForSaveList()
         buttonRow = indexPath.row
         saveImage(index: indexPath.row)
+        reloadSectionIndex.append(indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         deleteImage(index: indexPath.row)
     }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchTexting.isEmpty ? showNewPage(indexPath: sectionIndexes) : showNewPageInSearch(indexPath: sectionIndexes)
+    }
+    
 }
 
 //MARK: - CollectionDataSource
@@ -252,7 +295,10 @@ extension MainView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.reuseId, for: indexPath) as? MainCollectionViewCell else {
             return UICollectionViewCell()
         }
-        collectionView.reloadItems(at: [indexPath])
+        
+        if indexPath.row % 27 == 0 {
+            sectionIndexes = indexPath
+        }
         
         if checkImageInLocalMemory(indexPath: indexPath) {
             cell.saveImageButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
@@ -266,7 +312,9 @@ extension MainView: UICollectionViewDataSource {
             let id = pictures?[indexPath.row].id,
             let url = URL(string: smallImage) {
             DataProvider.shared.downloadImageUrl(id: id, url: url) { [weak self] (image) in
-                cell.imageView.image = image
+                if id == id {
+                    cell.imageView.image = image
+                }
             }
         }
         
@@ -293,6 +341,8 @@ extension MainView: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
+            searchTexting = ""
+            pageCount = 1
             self.presenter?.getImage()
         }
     }
@@ -303,8 +353,9 @@ extension MainView: UISearchBarDelegate {
         guard let searchText = searchBar.text, !searchText.isEmpty else {
             return
         }
+        pageCount = 1
         self.presenter?.searchText(searchText)
-
+        searchTexting = searchText
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
