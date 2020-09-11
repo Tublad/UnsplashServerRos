@@ -7,6 +7,7 @@ protocol MainViewImpl {
     func setPresenter(_ presenter: MainViewAction)
     func getContent(_ content: Picture)
     func saveListImage()
+    func savePictureInLocal()
 }
 
 
@@ -22,8 +23,9 @@ final class MainView: UIView {
     private var sourceView: UIView?
     private var pageCount: Int = 1
     private var sectionIndexes = IndexPath()
-    private var reloadSectionIndex = IndexPath()
+    private var reloadSectionIndex = [IndexPath]()
     private var searchTexting = String()
+    private var previewRow: Int = 0
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -79,14 +81,13 @@ final class MainView: UIView {
     }()
     
     private lazy var tapRecognizer: UITapGestureRecognizer = {
-         var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
-         return recognizer
+        var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
+        return recognizer
     }()
     
     @objc func dismissKeyboard() {
-      searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
     }
-    
     
     //MARK: - Init
     override init(frame: CGRect) {
@@ -104,7 +105,6 @@ final class MainView: UIView {
     fileprivate func setupUI() {
         setupSearchBar()
         setupCollectionView()
-     // to do ...
     }
     
     private func setupSearchBar() {
@@ -168,15 +168,22 @@ final class MainView: UIView {
     // MARK: - Check image save in memory
     private func checkImageInLocalMemory(indexPath: IndexPath) -> Bool {
         var answer: Bool = false
-        if let id = pictures?[indexPath.row].id {
-            answer = DataProvider.shared.chechImage(id: id)
+        if saveCountImage.count == 0 {
+        } else {
+            if let id = pictures?[indexPath.row].id {
+                for image in saveCountImage {
+                    if id == image.id {
+                        answer = true
+                    }
+                }
+            }
         }
         return answer
     }
     
     private func getContentForGalleryView() {
         guard let listImage = pictures,
-        let view = sourceView else { return }
+            let view = sourceView else { return }
         self.presenter?.sourceView(view: view, picture: listImage, count: buttonRow)
     }
     
@@ -216,26 +223,26 @@ final class MainView: UIView {
 
 extension MainView: MainViewImpl {
     
+    func savePictureInLocal() {
+        self.presenter?.showLocalViewController(picture: saveCountImage)
+    }
+    
     func saveListImage() {
-        for image in saveCountImage {
-            DataProvider.shared.saveImageInLocalMemory(key: image.id)
-        }
         title.alpha = 1
         
         UIView.animate(withDuration: 2, animations: {
             self.title.alpha = 0
-            self.collectionView.cellForItem(at: self.reloadSectionIndex)?.isSelected = false
+            self.collectionView.reloadItems(at: self.reloadSectionIndex)
         }, completion: nil)
         
         presenter?.deleteButtonSave()
-        collectionView.reloadData()
     }
     
     func getContent(_ content: Picture) {
         self.pictures = content
         
         DispatchQueue.main.async {
-          self.collectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
@@ -245,27 +252,55 @@ extension MainView: MainViewImpl {
     
     @objc func savePictureLocalMemory(_ sender: UIButton) {
         buttonRow = sender.tag
+        saveImage(index: buttonRow)
         
-        if let key = pictures?[buttonRow].id {
-            saveImage(index: buttonRow)
-            DataProvider.shared.saveImageInLocalMemory(key: key)
-            
-            sender.setImage(UIImage(systemName:"checkmark"), for: .normal)
-            sender.tintColor = .marineColor
-            sender.isEnabled = false
-            sender.backgroundColor = .clear
-            title.alpha = 1
-            
-            UIView.animate(withDuration: 2, animations: {
-                self.title.alpha = 0
-            })
-        }
+        sender.setImage(UIImage(systemName:"checkmark"), for: .normal)
+        sender.tintColor = .marineColor
+        sender.isEnabled = false
+        
+        title.alpha = 1
+        
+        UIView.animate(withDuration: 2, animations: {
+            self.title.alpha = 0
+        })
     }
+    
+    @objc func imageTapped(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == UIGestureRecognizer.State.began {
+            return
+        }
+        let imageView = sender.view as! UIImageView
+        let oldFrame = sender.location(in: self)
+        
+        let newImageView = UIImageView(image: imageView.image)
+        newImageView.alpha = 0
+        newImageView.frame = CGRect(x: oldFrame.x, y: oldFrame.y, width: imageView.frame.width, height: imageView.frame.height)
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+                        
+                        newImageView.transform = .identity
+                        newImageView.alpha = 1
+                        newImageView.frame = UIScreen.main.bounds
+                        newImageView.backgroundColor = .black
+                        newImageView.contentMode = .scaleAspectFit
+                        newImageView.isUserInteractionEnabled = true
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissFullscreenImage))
+                        newImageView.addGestureRecognizer(tap)
+                        self.addSubview(newImageView)
+                        
+        }, completion: nil)
+    }
+
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        sender.view?.removeFromSuperview()
+    }
+    
 }
 
 //MARK: - CollectionDelegate
 extension MainView: UICollectionViewDelegate {
-    // to do выбор ячейки для выделения, в общий массив и сохранение фотографий на локальный диск списком
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter?.getButtonForSaveList()
         buttonRow = indexPath.row
@@ -322,14 +357,18 @@ extension MainView: UICollectionViewDataSource {
             self?.sourceView = image
             self?.getContentForGalleryView()
         }
-     
+        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped))
+        longTap.minimumPressDuration = 0.5
+        cell.imageView.addGestureRecognizer(longTap)
+        
         return cell
     }
 }
 
 extension MainView: UISearchBarDelegate {
     
-     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.showsCancelButton = true
         return true
     }
@@ -349,7 +388,7 @@ extension MainView: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         dismissKeyboard()
-    
+        
         guard let searchText = searchBar.text, !searchText.isEmpty else {
             return
         }

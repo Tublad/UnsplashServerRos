@@ -8,11 +8,13 @@
 
 import UIKit
 
-final class LocalViewController: UIViewController {
+final class LocalViewController: UIViewController, ImageViewPresenterSource {
     
     //MARK: - Open properties
     // презентору сообщаем обо всех действиях и передаем данные, например: презентер, была нажата кнопка войти
     var presenter: LocalViewAction?
+    var source: UIView?
+    var picture: Picture?
     
     //MARK: - Private properties
     
@@ -28,8 +30,9 @@ final class LocalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let view = localView, let presenter = presenter {
+        if let view = localView, let presenter = presenter, let listPicture = picture {
             view.setPresenter(presenter)
+            view.getContent(listPicture)
         }
         setNavigation()
     }
@@ -50,6 +53,9 @@ final class LocalViewController: UIViewController {
 
 extension LocalViewController: LocalViewControllerImpl {
     
-
+    func sourceView(view: UIView, picture: Picture, count: Int) {
+        self.source = view
+        self.presenter?.showGalleryViewController(vc: self, picture: picture, count: count)
+    }
 }
 
