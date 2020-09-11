@@ -3,7 +3,7 @@ import UIKit
 
 
 protocol MainCoordination {
-    func showLocalViewController()
+    func showLocalViewController(picture: Picture)
     func showPhotoGallery(vc: MainViewController, picture: Picture, count: Int)
 }
 
@@ -33,11 +33,12 @@ final class MainCoordinator: BaseCoordirator {
 //MARK: - MainCoordination
 extension MainCoordinator: MainCoordination {
     
-    func showLocalViewController() {
+    func showLocalViewController(picture: Picture) {
         let localCoordinator = LocalCoordinator(navController: navController)
         self.parentCoordinator?.setDependence(withChildCoordinator: localCoordinator)
-        localCoordinator.start()
+        localCoordinator.startLocalView(picture: picture)
         self.parentCoordinator?.didFinish(coordinator: self)
+        
     }
     
     func showPhotoGallery(vc: MainViewController, picture: Picture, count: Int) {

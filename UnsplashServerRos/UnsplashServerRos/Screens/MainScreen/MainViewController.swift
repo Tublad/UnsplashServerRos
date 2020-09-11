@@ -11,16 +11,14 @@ import UIKit
 final class MainViewController: UIViewController, ImageViewPresenterSource {
     
     //MARK: - Open properties
-    // презентору сообщаем обо всех действиях и передаем данные, например: презентер, была нажата кнопка войти
     var presenter: MainViewAction?
     var source: UIView?
+    var picture: Picture?
     //MARK: - Private properties
     
-    //вью просим отобразить контент
     private lazy var mainView = view as? MainViewImpl
     
     //MARK: - Life cycle
-    //устанавливаем вью
     override func loadView() {
         view = MainView(frame: UIScreen.main.bounds)
     }
@@ -40,8 +38,6 @@ final class MainViewController: UIViewController, ImageViewPresenterSource {
     }
     
     //MARK: - Private metods
-    
-    //Устанавливаем навигацию, заголовок навигейшен контроллера, кнопки на навиг контроллере
     private func setNavigation() {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.title = "Unsplash"
@@ -100,7 +96,9 @@ extension MainViewController: MainViewControllerImpl {
     }
     
     @objc func showLocalViewController(_ sender: UIButton) {
-        self.presenter?.showLocalViewController()
+        if let view = mainView {
+            view.savePictureInLocal()
+        }
     }
     
 }

@@ -6,9 +6,8 @@ protocol MainViewAction: class {
     //фунции типа кнопка войти, забыли пароль, и тп. была нажата
     func searchText(_ text: String)
     func getImage()
-    func showLocalViewController()
+    func showLocalViewController(picture: Picture)
     func showGalleryViewController(vc: MainViewController, picture: Picture, count: Int)
-//    func actionDoubleTap()
     func getButtonForSaveList()
     func deleteButtonSave()
     func sourceView(view: UIView, picture: Picture, count: Int)
@@ -19,7 +18,6 @@ protocol MainViewControllerImpl: class {
     func getUnsplashServiceContent()
     func searchImageInUnsplashServer(text: String)
     func showButton()
-//    func doubleTap()
     func deleteButton()
     func sourceView(view: UIView, picture: Picture, count: Int)
 }
@@ -66,11 +64,7 @@ extension MainPresenter: MainViewAction {
         self.view?.getUnsplashServiceContent()
     }
     
-//    func actionDoubleTap() {
-//        self.view?.doubleTap()
-//    }
-    
-    func showLocalViewController() {
-        self.coordinator.showLocalViewController()
+    func showLocalViewController(picture: Picture) {
+        self.coordinator.showLocalViewController(picture: picture)
     }
 }

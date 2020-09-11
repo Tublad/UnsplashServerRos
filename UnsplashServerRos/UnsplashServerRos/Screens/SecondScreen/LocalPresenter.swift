@@ -6,12 +6,18 @@
 //  Copyright © 2020 Евгений Шварцкопф. All rights reserved.
 //
 
+import UIKit
+
 protocol LocalViewAction: class {
     //фунции типа кнопка войти, забыли пароль, и тп. была нажата
+    func sourceView(view: UIView, picture: Picture, count: Int)
+    func showGalleryViewController(vc: LocalViewController, picture: Picture, count: Int)
+
 }
 
 protocol LocalViewControllerImpl: class {
     //функции типа показать загрузку, установить делегатов
+    func sourceView(view: UIView, picture: Picture, count: Int)
 }
 
 
@@ -31,5 +37,13 @@ final class LocalPresenter {
 
 
 extension LocalPresenter: LocalViewAction {
+    
+    func sourceView(view: UIView, picture: Picture, count: Int) {
+        self.view?.sourceView(view: view, picture: picture, count: count)
+    }
+    
+    func showGalleryViewController(vc: LocalViewController, picture: Picture, count: Int) {
+        self.coordinator.showPhotoGallery(vc: vc, picture: picture, count: count)
+    }
     
 }

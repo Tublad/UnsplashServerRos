@@ -19,6 +19,8 @@ class LocalCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var deleteImageButton: UIButton!
     
+    var imageClicked: ((UIView) -> ())? = nil
+    
     override var isSelected: Bool  {
         didSet {
             if isSelected {
@@ -32,7 +34,17 @@ class LocalCollectionViewCell: UICollectionViewCell {
     }
     
     override func awakeFromNib() {
-        imageView.isUserInteractionEnabled = true 
+        imageView.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(pickImage))
+        tap.numberOfTapsRequired = 2
+        addGestureRecognizer(tap)
     }
+    
+    @objc func pickImage() {
+        imageClicked?(imageView)
+        self.isSelected = false
+    }
+    
     
 }
