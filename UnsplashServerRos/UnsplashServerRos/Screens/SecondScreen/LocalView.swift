@@ -21,6 +21,9 @@ final class LocalView: UIView {
     private var presenter: LocalViewAction?
     private var savePicture: Picture?
     private var buttonRow: Int = 0
+    private var saveIndexPath: IndexPath = IndexPath()
+    private var myCounter = 0
+    private var myTimer : Timer = Timer()
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -53,6 +56,20 @@ final class LocalView: UIView {
         return collectionView
     }()
     
+    private lazy var title: UILabel = {
+        let label = UILabel()
+        label.text = "Save"
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 100)
+        label.shadowColor = UIColor.black
+        label.shadowOffset = CGSize(width: 1.5, height: 1.5)
+        label.alpha = 0
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -76,12 +93,52 @@ final class LocalView: UIView {
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        collectionView.addSubview(title)
+        
+        title.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+        title.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
     }
     
     private func getContentForGalleryView() {
         guard let listImage = savePicture,
             let view = sourceView else { return }
         self.presenter?.sourceView(view: view, picture: listImage, count: buttonRow)
+    }
+    
+    @objc func deleteImage(_ sender: UIButton) {
+        guard let imageList = savePicture else { return }
+        var count = 0
+        print("Столько прошли, чтоб можно было удалить фотографию нашу\(count)")
+        print("По этому значению нужно удалить кнопку \(sender.tag)")
+        for value in imageList {
+            if value.id == savePicture?[sender.tag].id {
+                DispatchQueue.main.async {
+                    self.savePicture?.remove(at: count)
+                    self.collectionView.reloadData()
+                }
+                return
+            } else {
+                count += 1
+            }
+        }
+    }
+    
+    @objc func savePhotoInPhone(_ sender: UIButton) {
+        
+        guard let fullImage = savePicture?[sender.tag].urls.full,
+            let id = savePicture?[sender.tag].id,
+            let url = URL(string: fullImage) else { return }
+        
+        DataProvider.shared.downloadImageUrl(id: id, url: url) { [weak self] (image) in
+            if image != nil {
+                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+                self?.title.alpha = 1
+                UIView.animate(withDuration: 0.5, animations: {
+                    self?.title.alpha = 0
+                }, completion: nil)
+            }
+        }
     }
 }
 
@@ -130,7 +187,6 @@ extension LocalView: LocalViewImpl {
 
 //MARK: - CollectionDelegate
 extension LocalView: UICollectionViewDelegate {
-    // to do ... for click me
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         buttonRow = indexPath.row
@@ -161,6 +217,13 @@ extension LocalView: UICollectionViewDataSource {
             }
         }
         
+        cell.deleteImageButton.tag = indexPath.row
+        cell.deleteImageButton.addTarget(self, action: #selector(deleteImage), for: .touchUpInside)
+        
+        cell.saveImageButton.tag = indexPath.row
+        cell.saveImageButton.addTarget(self, action: #selector(savePhotoInPhone), for: .touchUpInside)
+        
+        
         cell.imageClicked = { [weak self] image in
             self?.sourceView = image
             self?.getContentForGalleryView()
@@ -173,5 +236,4 @@ extension LocalView: UICollectionViewDataSource {
         return cell
     }
 }
-
 

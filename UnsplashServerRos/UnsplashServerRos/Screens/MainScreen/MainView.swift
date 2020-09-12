@@ -61,7 +61,7 @@ final class MainView: UIView {
         let label = UILabel()
         label.text = "Save"
         label.textColor = UIColor.white
-        label.font = UIFont.systemFont(ofSize: 50)
+        label.font = UIFont.systemFont(ofSize: 100)
         label.shadowColor = UIColor.black
         label.shadowOffset = CGSize(width: 1.5, height: 1.5)
         label.alpha = 0
@@ -159,6 +159,9 @@ final class MainView: UIView {
                     if value.id == picture.id {
                         count -= 1
                         saveCountImage.remove(at: count)
+                        if saveCountImage.isEmpty {
+                            presenter?.deleteButtonSave()
+                        }
                     }
                 }
             }
@@ -225,6 +228,7 @@ extension MainView: MainViewImpl {
     
     func savePictureInLocal() {
         self.presenter?.showLocalViewController(picture: saveCountImage)
+        self.saveCountImage = Picture()
     }
     
     func saveListImage() {
