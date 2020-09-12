@@ -65,7 +65,7 @@ final class PhotoGalleryView: UIView {
     fileprivate func setupUI() {
         self.backgroundColor = .white
         setupCollectionView()
-     // to do ...
+        // to do ...
     }
     
     private func setupCollectionView() {
@@ -74,7 +74,7 @@ final class PhotoGalleryView: UIView {
         collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
-
+    
 }
 
 extension PhotoGalleryView: PhotoGalleryViewImpl {

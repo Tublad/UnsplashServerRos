@@ -12,7 +12,6 @@ protocol LocalViewAction: class {
     //фунции типа кнопка войти, забыли пароль, и тп. была нажата
     func sourceView(view: UIView, picture: Picture, count: Int)
     func showGalleryViewController(vc: LocalViewController, picture: Picture, count: Int)
-
 }
 
 protocol LocalViewControllerImpl: class {

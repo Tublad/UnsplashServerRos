@@ -22,16 +22,33 @@ class ImageViewerPresenter: NSObject, UIViewControllerTransitioningDelegate, UIN
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        guard let sourceView = animatorSource?.source,
-            let origin = sourceView.superview?.convert(sourceView.frame,
-                                                       to: UIApplication.topViewController()?.navigationController?.view) else {
-             return nil
+        switch operation {
+        case .push:
+            guard let sourceView = animatorSource?.source,
+                let origin = sourceView.superview?.convert(sourceView.frame,
+                                                           to: UIApplication.topViewController()?.navigationController?.view) else {
+                                                            return nil
+            }
+            
+            animator.originFrame = CGRect(x: origin.minX,
+                                          y: origin.minY,
+                                          width: origin.size.width,
+                                          height: origin.size.height)
+            return animator
+        case .pop:
+            guard let sourceView = animatorSource?.source,
+                let origin = sourceView.superview?.convert(sourceView.frame,
+                                                           to: UIApplication.topViewController()?.navigationController?.view) else {
+                                                            return nil
+            }
+            
+            animator.originFrame = CGRect(x: origin.minX,
+                                          y: origin.minY,
+                                          width: origin.size.width,
+                                          height: origin.size.height)
+            return animator
+        default:
+            fatalError()
         }
-        
-        animator.originFrame = CGRect(x: origin.minX,
-                                      y: origin.minY,
-                                      width: origin.size.width,
-                                      height: origin.size.height)
-        return animator
     }
 }

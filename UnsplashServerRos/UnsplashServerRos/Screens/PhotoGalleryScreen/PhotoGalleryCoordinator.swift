@@ -12,7 +12,6 @@ protocol PhotoGalleryCoordination {
     
 }
 
-
 final class PhotoGalleryCoordinator: BaseCoordirator {
     
     //MARK: - Private properties
@@ -40,7 +39,7 @@ final class PhotoGalleryCoordinator: BaseCoordirator {
         vc.presenter = presenter
         vc.picture = picture
         vc.count = count
-        print("Нужно показать именно с этим нумерацию \(count)")
+        
         navController.pushViewController(vc, animated: true)
     }
     

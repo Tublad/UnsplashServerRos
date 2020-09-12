@@ -18,7 +18,6 @@ class DataProvider {
     
     private var imageCache = NSCache<NSString, UIImage>()
     private var saveImageCache = NSCache<NSString, UIImage>()
-//    private var listSaveImage: [UIImage] = []
     
     // MARK: - Download image in main view
     func downloadImageUrl(id: String, url: URL, completion: @escaping (UIImage?) -> Void) {
@@ -47,38 +46,4 @@ class DataProvider {
             dataTask.resume()
         }
     }
-//to dо... Убрать зависимость фотографий списка, из за ни возможная сильная связь и ячейки траят 
-    
-    // MARK: - Saving in local memory
-//    func saveImageInLocalMemory(key: String) {
-//        guard !key.isEmpty else { return }
-//        
-////        print("Ключ по которому начинаю сохранять\(key)")
-//        guard let image = imageCache.object(forKey: key as NSString),
-//            !listSaveImage.contains(image) else {
-//                return  //print("Данная картинка уже имееться в локальной памяти")
-//        }
-//        saveImageCache.setObject(image, forKey: key as NSString)
-//        listSaveImage.append(image)
-//    }
-//
-    //MARK: - Get image in local memory
-//    func getSaveImageInLocalMemory(completion: @escaping ([UIImage]) -> Void){
-//        guard !listSaveImage.isEmpty else { return }
-//        completion(listSaveImage)
-//    }
-    
-    // MARK: - Check image
-//    func chechImage(id: String) -> Bool {
-//        var count = 0
-////        print("Проверяю по этому ключу, если ли фотографии\(id)")
-//        guard let image = saveImageCache.object(forKey: id as NSString) else { return false }
-//        for value in listSaveImage {
-//            if value == image {
-//                count += 1
-//                break
-//            }
-//        }
-//        return count <= 0 ? false : true
-//    }
 }

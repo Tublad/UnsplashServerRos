@@ -28,7 +28,6 @@
 		A9202AB12502242900477B14 /* LocalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AB02502242900477B14 /* LocalPresenter.swift */; };
 		A9202AB725023ED600477B14 /* UIColor + customColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AB625023ED600477B14 /* UIColor + customColor.swift */; };
 		A9202AB92502474100477B14 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202AB82502474100477B14 /* DataProvider.swift */; };
-		A933A187250BE1DD0064A219 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A933A186250BE1DD0064A219 /* ImageScrollView.swift */; };
 		A943AFB92504D3EF00BCBED1 /* LocalColletionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A943AFB82504D3EF00BCBED1 /* LocalColletionViewCell.swift */; };
 		A943AFBB2504D3FD00BCBED1 /* LocalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A943AFBA2504D3FD00BCBED1 /* LocalCollectionViewCell.xib */; };
 		A98589DB2507B55200C15379 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98589DA2507B55200C15379 /* PopAnimator.swift */; };
@@ -66,7 +65,6 @@
 		A9202AB02502242900477B14 /* LocalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPresenter.swift; sourceTree = "<group>"; };
 		A9202AB625023ED600477B14 /* UIColor + customColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + customColor.swift"; sourceTree = "<group>"; };
 		A9202AB82502474100477B14 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
-		A933A186250BE1DD0064A219 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		A943AFB82504D3EF00BCBED1 /* LocalColletionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalColletionViewCell.swift; sourceTree = "<group>"; };
 		A943AFBA2504D3FD00BCBED1 /* LocalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocalCollectionViewCell.xib; sourceTree = "<group>"; };
 		A98589DA2507B55200C15379 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 				A98589CC2507771800C15379 /* Animation */,
 				A9202A822500CDCF00477B14 /* BaseCoordinator.swift */,
 				A9202A9D2501065400477B14 /* Extenstions */,
-				A933A186250BE1DD0064A219 /* ImageScrollView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -334,7 +331,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9202AAD2502240900477B14 /* LocalView.swift in Sources */,
-				A933A187250BE1DD0064A219 /* ImageScrollView.swift in Sources */,
 				A9202AAB250223FE00477B14 /* LocalViewController.swift in Sources */,
 				A9202AB92502474100477B14 /* DataProvider.swift in Sources */,
 				A9202A8B2500CFF300477B14 /* MainCoordinator.swift in Sources */,
