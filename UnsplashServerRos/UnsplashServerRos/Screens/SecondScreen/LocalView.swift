@@ -22,8 +22,6 @@ final class LocalView: UIView {
     private var savePicture: Picture?
     private var buttonRow: Int = 0
     private var saveIndexPath: IndexPath = IndexPath()
-    private var myCounter = 0
-    private var myTimer : Timer = Timer()
     
     private var screenSize: CGRect!
     private var screenWidth: CGFloat!
@@ -109,8 +107,6 @@ final class LocalView: UIView {
     @objc func deleteImage(_ sender: UIButton) {
         guard let imageList = savePicture else { return }
         var count = 0
-        print("Столько прошли, чтоб можно было удалить фотографию нашу\(count)")
-        print("По этому значению нужно удалить кнопку \(sender.tag)")
         for value in imageList {
             if value.id == savePicture?[sender.tag].id {
                 DispatchQueue.main.async {

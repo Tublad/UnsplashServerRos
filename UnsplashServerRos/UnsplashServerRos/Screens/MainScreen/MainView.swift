@@ -10,7 +10,6 @@ protocol MainViewImpl {
     func savePictureInLocal()
 }
 
-
 final class MainView: UIView {
     
     //MARK: - Open properties
@@ -32,7 +31,6 @@ final class MainView: UIView {
     private var screenHeight: CGFloat!
     
     private lazy var collectionView: UICollectionView = {
-        // setting size
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize.width
         screenHeight = screenSize.height
@@ -129,6 +127,7 @@ final class MainView: UIView {
         title.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
     }
     
+    // MARK: - saveImage in list
     private func saveImage(index: Int) {
         if let picture = pictures?[index] {
             if saveCountImage.count == 0 {
@@ -149,7 +148,7 @@ final class MainView: UIView {
             }
         }
     }
-    
+    // MARK: - delete Image in list
     private func deleteImage(index: Int) {
         if saveCountImage.count > 0 {
             if let picture = pictures?[index] {
@@ -228,7 +227,6 @@ extension MainView: MainViewImpl {
     
     func savePictureInLocal() {
         self.presenter?.showLocalViewController(picture: saveCountImage)
-        self.saveCountImage = Picture()
     }
     
     func saveListImage() {
@@ -237,6 +235,8 @@ extension MainView: MainViewImpl {
         UIView.animate(withDuration: 2, animations: {
             self.title.alpha = 0
             self.collectionView.reloadItems(at: self.reloadSectionIndex)
+            self.reloadSectionIndex = [IndexPath]()
+            self.collectionView.reloadData()
         }, completion: nil)
         
         presenter?.deleteButtonSave()
@@ -295,7 +295,7 @@ extension MainView: MainViewImpl {
                         
         }, completion: nil)
     }
-
+    
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         sender.view?.removeFromSuperview()
     }
@@ -304,7 +304,7 @@ extension MainView: MainViewImpl {
 
 //MARK: - CollectionDelegate
 extension MainView: UICollectionViewDelegate {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter?.getButtonForSaveList()
         buttonRow = indexPath.row

@@ -19,6 +19,7 @@ class PushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let conteinerView = transitionContext.containerView
+        
         guard let toView = transitionContext.view(forKey: .to) else { return }
         let recipeView = toView
         
@@ -45,3 +46,4 @@ class PushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         }
     }
 }
+

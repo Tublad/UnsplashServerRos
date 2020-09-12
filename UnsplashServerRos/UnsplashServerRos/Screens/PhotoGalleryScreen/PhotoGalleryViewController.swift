@@ -8,13 +8,14 @@
 
 import UIKit
 
-final class PhotoGalleryViewController: UIViewController {
+final class PhotoGalleryViewController: UIViewController, ImageViewPresenterSource {
     
     //MARK: - Open properties
     // презентору сообщаем обо всех действиях и передаем данные, например: презентер, была нажата кнопка войти
     var presenter: PhotoGalleryViewAction?
     var picture: Picture?
     var count: Int?
+    var source: UIView?
     
     //MARK: - Private properties
     
@@ -55,6 +56,6 @@ final class PhotoGalleryViewController: UIViewController {
 
 
 extension PhotoGalleryViewController: PhotoGalleryViewControllerImpl {
-
+    
 }
 

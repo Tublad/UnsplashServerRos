@@ -56,5 +56,5 @@ extension LocalCoordinator: LocalCoordination {
         photoGalleryCoordinator.startPhotoGallery(picture: picture, count: count)
         self.parentCoordinator?.didFinish(coordinator: self)
     }
-
+    
 }
